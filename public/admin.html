@@ -503,8 +503,8 @@ $(document).ready(function () {
     // Initialize DataTable with responsive support
     dataTable = $('#bookingTable').DataTable({
         ajax: {
-//            url: '/api/bookings',
-			url: 'https://saloon-with-backend.onrender.com/api/bookings',
+            url: '/api/bookings',
+//			url: 'https://saloon-with-backend.onrender.com/api/bookings',
             dataSrc: function(response) {
                 // response should be array of bookings
                 if (!response || !Array.isArray(response)) {
