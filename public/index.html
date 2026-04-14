@@ -544,6 +544,23 @@
         line-height: 1.2;
     }
 }
+
+.booking-wrapper {
+    display: flex;
+    flex-direction: column;   /* 👈 FORCE TOP → BOTTOM */
+    gap: 1.5rem;
+}
+
+.booking-form {
+    width: 100%;
+    max-width: 100%;   /* remove any limit */
+    flex: none;        /* stop flex shrinking */
+}
+
+.booking-wrapper {
+    display: flex;
+    flex-direction: column;  /* already added earlier */
+}
     </style>
 </head>
 <body>
