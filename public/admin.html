@@ -1,192 +1,630 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>LUXE LOCKS | Admin Dashboard</title>
 
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #fefaf6;
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px;
             color: #1e1a17;
         }
 
-        h2 {
-            font-family: 'Playfair Display', serif;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 26px;
-            font-weight: 600;
+        /* Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        /* Stats */
-        .top-bar {
+        /* Header */
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e1a17;
+            margin-bottom: 8px;
+        }
+
+        .admin-header h2 span {
+            color: #a76d4a;
+        }
+
+        .admin-header p {
+            color: #7e695b;
+            font-size: 14px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
             display: flex;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
             margin-bottom: 30px;
         }
 
-        .stat {
-            background: #fff3ea;
-            padding: 12px 22px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 500;
+        .stat-card {
+            background: white;
+            padding: 18px 28px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #f0e4db;
+            min-width: 140px;
+        }
+
+        .stat-card i {
+            font-size: 28px;
+            color: #a76d4a;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e1a17;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #7e695b;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
         }
 
         /* Card */
         .card {
-            max-width: 1100px;
-            margin: auto;
             background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #f0e4db;
         }
 
-        /* Table */
+        /* Table wrapper - responsive */
+        .table-wrapper {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        /* DataTables custom */
         table.dataTable {
             border-collapse: collapse !important;
+            width: 100% !important;
+            font-family: 'Inter', sans-serif;
         }
 
         table.dataTable thead th {
             background: #faf6f2;
             color: #a76d4a;
             font-weight: 600;
-            padding: 12px 10px;
-            border-bottom: 1px solid #eee;
+            padding: 14px 12px;
+            border-bottom: 2px solid #e6dbd1;
+            font-size: 14px;
         }
 
         table.dataTable tbody td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #f2f2f2;
-            font-size: 14px;
+            padding: 12px 12px;
+            border-bottom: 1px solid #f2ece7;
+            font-size: 13px;
+            vertical-align: middle;
         }
 
         table.dataTable tbody tr:hover {
             background: #fcf8f4;
         }
 
-        /* Button */
-        .btn {
-            padding: 5px 12px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .delete {
+        /* Delete button */
+        .btn-delete {
             background: #ff4d4d;
             color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Search */
+        .btn-delete:hover {
+            background: #e03e3e;
+            transform: scale(1.02);
+        }
+
+        .btn-delete i {
+            font-size: 11px;
+        }
+
+        /* DataTables search & pagination */
         .dataTables_filter {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .dataTables_filter label {
+            font-size: 13px;
+            color: #5e4b3c;
         }
 
         .dataTables_filter input {
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 6px 10px;
+            border: 1px solid #e2d4cb;
+            border-radius: 40px;
+            padding: 8px 16px;
+            margin-left: 8px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            width: 220px;
+            background: #fffcf9;
         }
 
-        /* Pagination */
+        .dataTables_filter input:focus {
+            border-color: #a76d4a;
+        }
+
+        .dataTables_info {
+            font-size: 13px;
+            color: #7e695b;
+            padding-top: 15px;
+        }
+
         .dataTables_paginate {
             margin-top: 15px;
         }
 
+        .paginate_button {
+            padding: 6px 12px !important;
+            margin: 0 3px !important;
+            border-radius: 30px !important;
+            font-size: 12px !important;
+        }
+
+        .paginate_button.current {
+            background: #a76d4a !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #b8a392;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .admin-header h2 {
+                font-size: 22px;
+            }
+
+            .stats-grid {
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 12px 18px;
+                min-width: 110px;
+            }
+
+            .stat-number {
+                font-size: 24px;
+            }
+
+            .stat-card i {
+                font-size: 22px;
+            }
+
+            .stat-label {
+                font-size: 11px;
+            }
+
+            .table-wrapper {
+                padding: 12px;
+            }
+
+            table.dataTable thead th {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            table.dataTable tbody td {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            .btn-delete {
+                padding: 4px 10px;
+                font-size: 11px;
+            }
+
+            .dataTables_filter input {
+                width: 160px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .dataTables_filter label {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 10px 12px;
+                min-width: 85px;
+            }
+
+            .stat-number {
+                font-size: 20px;
+            }
+
+            .dataTables_filter {
+                text-align: left;
+                margin-bottom: 15px;
+            }
+
+            .dataTables_filter input {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            /* Make table more readable on small screens */
+            table.dataTable thead th {
+                font-size: 11px;
+                padding: 8px 6px;
+            }
+
+            table.dataTable tbody td {
+                font-size: 11px;
+                padding: 8px 6px;
+                word-break: break-word;
+            }
+
+            .btn-delete {
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+
+            .btn-delete i {
+                font-size: 9px;
+            }
+        }
+
+        /* Tooltip / badge */
+        .mobile-badge {
+            background: #e8e0d9;
+            color: #5e4b3c;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #b8a392;
+        }
     </style>
 </head>
-
 <body>
 
-<h2>LUXE LOCKS Admin</h2>
+<div class="dashboard-container">
+    <div class="admin-header">
+        <h2>LUXE <span>LOCKS</span> Admin</h2>
+        <p><i class="fas fa-calendar-alt"></i> Manage appointments & customer details</p>
+    </div>
 
-<div class="top-bar">
-    <div class="stat">Total: <span id="total">0</span></div>
-    <div class="stat">Today: <span id="today">0</span></div>
-</div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="stat-number" id="totalCount">0</div>
+            <div class="stat-label">Total Bookings</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-calendar-day"></i>
+            <div class="stat-number" id="todayCount">0</div>
+            <div class="stat-label">Today's Appointments</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-phone-alt"></i>
+            <div class="stat-number" id="phoneCount">0</div>
+            <div class="stat-label">With Mobile Number</div>
+        </div>
+    </div>
 
-<div class="card">
-    <table id="bookingTable" class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Notes</th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
+    <div class="card">
+        <div class="table-wrapper">
+            <table id="bookingTable" class="display responsive nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Mobile / Email</th>
+                        <th>Service</th>
+                        <th>Date & Time</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="6" class="empty-state">Loading bookings...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <i class="fas fa-lock"></i> Secure admin panel • Real-time booking management
+    </footer>
 </div>
 
 <script>
+let dataTable;
 
-let table;
+// Helper to format date nicely
+function formatDateTime(dateStr, timeStr) {
+    if (!dateStr) return '—';
+    let displayDate = dateStr;
+    if (dateStr.includes('-')) {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+            displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+    }
+    return `${displayDate} ${timeStr ? timeStr : ''}`;
+}
+
+// Helper to get mobile/email display
+function getContactDisplay(booking) {
+    // Show mobile prominently if exists, else email
+    if (booking.phone && booking.phone.trim() !== '') {
+        return `<div><i class="fas fa-phone-alt" style="color:#a76d4a; font-size:12px; margin-right:5px;"></i><strong>${escapeHtml(booking.phone)}</strong><br><span style="font-size:11px; color:#8f7765;"><i class="far fa-envelope"></i> ${escapeHtml(booking.email || '—')}</span></div>`;
+    } else {
+        return `<div><i class="far fa-envelope" style="color:#a76d4a; margin-right:5px;"></i>${escapeHtml(booking.email || '—')}<br><span style="font-size:11px; color:#8f7765;"><i class="fas fa-phone-slash"></i> No mobile</span></div>`;
+    }
+}
+
+// Escape HTML to prevent injection
+function escapeHtml(str) {
+    if (!str) return '—';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+
+// Delete booking function
+window.deleteBooking = async function(bookingId) {
+    if (!confirm('🗑️ Delete this booking permanently?')) return;
+    
+    try {
+        const response = await fetch(`/api/book/${bookingId}`, { 
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+            if (dataTable) {
+                dataTable.ajax.reload(null, false);
+            }
+            // Also update stats after reload
+            setTimeout(updateStatsFromData, 500);
+        } else {
+            alert('Failed to delete. Please try again.');
+        }
+    } catch (err) {
+        console.error('Delete error:', err);
+        alert('Network error. Could not delete.');
+    }
+};
+
+// Update stats from table data
+function updateStatsFromData() {
+    if (!dataTable) return;
+    const allData = dataTable.ajax.json();
+    if (allData && allData.data) {
+        const bookings = allData.data;
+        const total = bookings.length;
+        const todayStr = new Date().toISOString().split('T')[0];
+        const todayCount = bookings.filter(b => b.date === todayStr).length;
+        const phoneCount = bookings.filter(b => b.phone && b.phone.trim() !== '').length;
+        
+        document.getElementById('totalCount').innerText = total;
+        document.getElementById('todayCount').innerText = todayCount;
+        document.getElementById('phoneCount').innerText = phoneCount;
+    } else {
+        // fallback: try to get from current rows if json not loaded yet
+        setTimeout(() => {
+            if (dataTable && dataTable.rows) {
+                const rowsData = dataTable.rows().data();
+                if (rowsData && rowsData.length) {
+                    const total = rowsData.length;
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    let todayCount = 0;
+                    let phoneCount = 0;
+                    rowsData.each(function(row) {
+                        if (row.date === todayStr) todayCount++;
+                        if (row.phone && row.phone.trim()) phoneCount++;
+                    });
+                    document.getElementById('totalCount').innerText = total;
+                    document.getElementById('todayCount').innerText = todayCount;
+                    document.getElementById('phoneCount').innerText = phoneCount;
+                }
+            }
+        }, 200);
+    }
+}
 
 $(document).ready(function () {
-
-    table = $('#bookingTable').DataTable({
+    // Initialize DataTable with responsive support
+    dataTable = $('#bookingTable').DataTable({
         ajax: {
-            //url: '/api/bookings',
+//            url: '/api/bookings',
 			url: 'https://saloon-with-backend.onrender.com/api/bookings',
-            dataSrc: function(data) {
-
-                document.getElementById("total").innerText = data.length;
-
-                let today = new Date().toISOString().split('T')[0];
-                document.getElementById("today").innerText =
-                    data.filter(b => b.date === today).length;
-
-                return data;
+            dataSrc: function(response) {
+                // response should be array of bookings
+                if (!response || !Array.isArray(response)) {
+                    console.warn('Invalid response format');
+                    return [];
+                }
+                
+                // Update stats after data load
+                setTimeout(() => {
+                    const total = response.length;
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    const todayCount = response.filter(b => b.date === todayStr).length;
+                    const phoneCount = response.filter(b => b.phone && b.phone.trim() !== '').length;
+                    
+                    document.getElementById('totalCount').innerText = total;
+                    document.getElementById('todayCount').innerText = todayCount;
+                    document.getElementById('phoneCount').innerText = phoneCount;
+                }, 50);
+                
+                return response;
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+                $('#bookingTable tbody').html('<tr><td colspan="6" class="empty-state"><i class="fas fa-exclamation-triangle"></i> Failed to load bookings. Make sure backend is running.</td></tr>');
+                return [];
             }
         },
         columns: [
-            { data: 'name' },
-            { data: 'email' },
-            { data: 'service' },
-            { data: 'date' },
-            { data: 'time' },
-            { data: 'notes' },
-            {
+            { 
+                data: 'name',
+                render: function(data, type, row) {
+                    return `<strong>${escapeHtml(data || '—')}</strong>`;
+                }
+            },
+            { 
                 data: null,
-                render: d => `
-                    <button class="btn delete" onclick="deleteBooking('${d._id}')">
-                        Delete
-                    </button>
-                `
+                render: function(data, type, row) {
+                    return getContactDisplay(row);
+                }
+            },
+            { 
+                data: 'service',
+                render: function(data) {
+                    return `<span class="mobile-badge">${escapeHtml(data || '—')}</span>`;
+                }
+            },
+            { 
+                data: null,
+                render: function(data, type, row) {
+                    return formatDateTime(row.date, row.time);
+                }
+            },
+            { 
+                data: 'notes',
+                render: function(data) {
+                    let notes = data ? data.trim() : '';
+                    if (!notes) return '<span style="color:#b8a392;">—</span>';
+                    if (notes.length > 40) {
+                        return `<span title="${escapeHtml(notes)}">${escapeHtml(notes.substring(0, 37))}...</span>`;
+                    }
+                    return escapeHtml(notes);
+                }
+            },
+            {
+                data: '_id',
+                render: function(bookingId, type, row) {
+                    return `<button class="btn-delete" onclick="deleteBooking('${bookingId}')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>`;
+                }
             }
         ],
-        pageLength: 10
+        order: [[3, 'desc']], // sort by date descending (newest first)
+        pageLength: 10,
+        responsive: {
+            details: {
+                type: 'column',
+                target: 'tr'
+            }
+        },
+        language: {
+            emptyTable: "📭 No bookings yet. Customers will appear here.",
+            zeroRecords: "No matching bookings found.",
+            search: "🔍 Search:",
+            info: "Showing _START_ to _END_ of _TOTAL_ bookings",
+            infoEmpty: "No bookings available",
+            infoFiltered: "(filtered from _MAX_ total)"
+        },
+        drawCallback: function() {
+            // Ensure stats update after table redraw (delete/search)
+            const api = this.api();
+            const total = api.rows().count();
+            const allData = api.rows().data();
+            if (allData && allData.length) {
+                const todayStr = new Date().toISOString().split('T')[0];
+                let todayCount = 0;
+                let phoneCount = 0;
+                for (let i = 0; i < allData.length; i++) {
+                    const row = allData[i];
+                    if (row.date === todayStr) todayCount++;
+                    if (row.phone && row.phone.trim() !== '') phoneCount++;
+                }
+                document.getElementById('totalCount').innerText = total;
+                document.getElementById('todayCount').innerText = todayCount;
+                document.getElementById('phoneCount').innerText = phoneCount;
+            } else {
+                document.getElementById('totalCount').innerText = '0';
+                document.getElementById('todayCount').innerText = '0';
+                document.getElementById('phoneCount').innerText = '0';
+            }
+        }
     });
-
+    
+    // Fix responsive on window resize
+    $(window).on('resize', function() {
+        if (dataTable && dataTable.responsive) {
+            dataTable.responsive.recalc();
+        }
+    });
 });
-
-
-// DELETE
-async function deleteBooking(id) {
-    if (!confirm("Delete booking?")) return;
-
-    await fetch(`/api/book/${id}`, { method: "DELETE" });
-    table.ajax.reload();
-}
-
 </script>
 
 </body>
