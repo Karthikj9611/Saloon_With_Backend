@@ -32,13 +32,11 @@
             color: #1e1a17;
         }
 
-        /* Container */
         .dashboard-container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Header */
         .admin-header {
             text-align: center;
             margin-bottom: 30px;
@@ -61,7 +59,6 @@
             font-size: 14px;
         }
 
-        /* Stats Cards */
         .stats-grid {
             display: flex;
             justify-content: center;
@@ -101,7 +98,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Card */
         .card {
             background: white;
             border-radius: 24px;
@@ -110,13 +106,11 @@
             border: 1px solid #f0e4db;
         }
 
-        /* Table wrapper - responsive */
         .table-wrapper {
             padding: 20px;
             overflow-x: auto;
         }
 
-        /* DataTables custom */
         table.dataTable {
             border-collapse: collapse !important;
             width: 100% !important;
@@ -143,7 +137,6 @@
             background: #fcf8f4;
         }
 
-        /* Delete button */
         .btn-delete {
             background: #ff4d4d;
             color: white;
@@ -168,17 +161,74 @@
             font-size: 11px;
         }
 
+        /* Clickable phone link styling */
+        .phone-link {
+            text-decoration: none;
+            background: #eef2f0;
+            padding: 4px 10px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: #2c6e2f;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .phone-link:hover {
+            background: #a76d4a;
+            color: white;
+        }
+        .phone-link i {
+            font-size: 12px;
+        }
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .email-small {
+            font-size: 11px;
+            color: #8f7765;
+            word-break: break-all;
+        }
+        .mobile-badge {
+            background: #e8e0d9;
+            color: #5e4b3c;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            font-weight: 500;
+        }
+        .notes-preview {
+            max-width: 180px;
+            white-space: normal;
+            word-break: break-word;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+        .customer-name {
+            font-weight: 700;
+            color: #2c241f;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .customer-name i {
+            color: #a76d4a;
+            font-size: 13px;
+        }
+
         /* DataTables search & pagination */
         .dataTables_filter {
             margin-bottom: 20px;
             text-align: right;
         }
-
         .dataTables_filter label {
             font-size: 13px;
             color: #5e4b3c;
         }
-
         .dataTables_filter input {
             border: 1px solid #e2d4cb;
             border-radius: 40px;
@@ -189,157 +239,130 @@
             width: 220px;
             background: #fffcf9;
         }
-
         .dataTables_filter input:focus {
             border-color: #a76d4a;
         }
-
         .dataTables_info {
             font-size: 13px;
             color: #7e695b;
             padding-top: 15px;
         }
-
         .dataTables_paginate {
             margin-top: 15px;
         }
-
         .paginate_button {
             padding: 6px 12px !important;
             margin: 0 3px !important;
             border-radius: 30px !important;
             font-size: 12px !important;
         }
-
         .paginate_button.current {
             background: #a76d4a !important;
             color: white !important;
             border: none !important;
         }
-
-        /* Empty state */
         .empty-state {
             text-align: center;
             padding: 40px;
             color: #b8a392;
         }
 
-        /* Mobile responsiveness */
+        /* MOBILE OPTIMIZATIONS: all details visible, phone clickable */
         @media (max-width: 768px) {
             body {
                 padding: 12px;
             }
-
             .admin-header h2 {
                 font-size: 22px;
             }
-
             .stats-grid {
                 gap: 12px;
             }
-
             .stat-card {
                 padding: 12px 18px;
                 min-width: 110px;
             }
-
             .stat-number {
                 font-size: 24px;
             }
-
-            .stat-card i {
-                font-size: 22px;
-            }
-
-            .stat-label {
-                font-size: 11px;
-            }
-
             .table-wrapper {
                 padding: 12px;
+                overflow-x: auto;
             }
-
+            /* Make table more compact but show all columns */
             table.dataTable thead th {
                 padding: 10px 8px;
-                font-size: 12px;
+                font-size: 11px;
             }
-
             table.dataTable tbody td {
                 padding: 10px 8px;
                 font-size: 12px;
             }
-
             .btn-delete {
-                padding: 4px 10px;
+                padding: 5px 10px;
                 font-size: 11px;
             }
-
-            .dataTables_filter input {
-                width: 160px;
-                padding: 6px 12px;
+            .phone-link {
                 font-size: 12px;
+                padding: 3px 8px;
             }
-
-            .dataTables_filter label {
+            .mobile-badge {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+            .notes-preview {
+                max-width: 140px;
+                font-size: 11px;
+            }
+            .dataTables_filter input {
+                width: 180px;
                 font-size: 12px;
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 550px) {
             .stats-grid {
                 gap: 8px;
             }
-
             .stat-card {
                 padding: 10px 12px;
-                min-width: 85px;
+                min-width: 90px;
             }
-
             .stat-number {
                 font-size: 20px;
             }
-
             .dataTables_filter {
                 text-align: left;
                 margin-bottom: 15px;
             }
-
             .dataTables_filter input {
                 width: 100%;
                 margin-left: 0;
                 margin-top: 5px;
             }
-
-            /* Make table more readable on small screens */
+            /* Ensure all columns readable on tiny screens */
             table.dataTable thead th {
-                font-size: 11px;
-                padding: 8px 6px;
+                font-size: 10px;
+                padding: 8px 4px;
             }
-
             table.dataTable tbody td {
                 font-size: 11px;
-                padding: 8px 6px;
-                word-break: break-word;
+                padding: 8px 4px;
             }
-
+            .customer-name {
+                font-size: 12px;
+            }
+            .phone-link {
+                font-size: 11px;
+                padding: 2px 6px;
+            }
+            .contact-details .email-small {
+                font-size: 9px;
+            }
             .btn-delete {
                 padding: 4px 8px;
                 font-size: 10px;
             }
-
-            .btn-delete i {
-                font-size: 9px;
-            }
-        }
-
-        /* Tooltip / badge */
-        .mobile-badge {
-            background: #e8e0d9;
-            color: #5e4b3c;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 11px;
-            display: inline-block;
         }
 
         footer {
@@ -382,10 +405,10 @@
                 <thead>
                     <tr>
                         <th>Customer</th>
-                        <th>Mobile / Email</th>
+                        <th>Contact</th>
                         <th>Service</th>
                         <th>Date & Time</th>
-                        <th>Notes</th>
+                        <th>Notes / Requests</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -396,7 +419,7 @@
         </div>
     </div>
     <footer>
-        <i class="fas fa-lock"></i> Secure admin panel • Real-time booking management
+        <i class="fas fa-phone"></i> Tap phone number to call directly • Real-time booking management
     </footer>
 </div>
 
@@ -413,27 +436,52 @@ function formatDateTime(dateStr, timeStr) {
             displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
         }
     }
-    return `${displayDate} ${timeStr ? timeStr : ''}`;
+    return `<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;"><i class="far fa-calendar-alt" style="color:#a76d4a;"></i> <strong>${displayDate}</strong> ${timeStr ? `<span style="background:#f0e4db; padding:2px 8px; border-radius:30px; font-size:11px;"><i class="far fa-clock"></i> ${escapeHtml(timeStr)}</span>` : ''}</div>`;
 }
 
-// Helper to get mobile/email display
+// MAIN CHANGE: Show mobile number as clickable dial link (tel:), email as fallback
 function getContactDisplay(booking) {
-    // Show mobile prominently if exists, else email
-    if (booking.phone && booking.phone.trim() !== '') {
-        return `<div><i class="fas fa-phone-alt" style="color:#a76d4a; font-size:12px; margin-right:5px;"></i><strong>${escapeHtml(booking.phone)}</strong><br><span style="font-size:11px; color:#8f7765;"><i class="far fa-envelope"></i> ${escapeHtml(booking.email || '—')}</span></div>`;
+    const phone = booking.phone && booking.phone.trim() !== '' ? booking.phone.trim() : null;
+    const email = booking.email || '—';
+    
+    if (phone) {
+        // Clean phone number: remove spaces, keep digits and plus
+        let cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+        if (!cleanPhone.startsWith('+') && !cleanPhone.startsWith('0')) {
+            // assume Indian number, add +91? but we just use as is for tel:
+            cleanPhone = cleanPhone;
+        }
+        return `
+            <div class="contact-details">
+                <a href="tel:${encodeURIComponent(cleanPhone)}" class="phone-link" style="text-decoration:none;">
+                    <i class="fas fa-phone-alt"></i> ${escapeHtml(phone)}
+                </a>
+                <span class="email-small"><i class="far fa-envelope"></i> ${escapeHtml(email)}</span>
+            </div>
+        `;
     } else {
-        return `<div><i class="far fa-envelope" style="color:#a76d4a; margin-right:5px;"></i>${escapeHtml(booking.email || '—')}<br><span style="font-size:11px; color:#8f7765;"><i class="fas fa-phone-slash"></i> No mobile</span></div>`;
+        // No phone: show email only, no dial button
+        return `
+            <div class="contact-details">
+                <span style="background:#f1eae4; padding:4px 10px; border-radius:30px; display:inline-flex; align-items:center; gap:6px; font-size:12px;">
+                    <i class="far fa-envelope" style="color:#a76d4a;"></i> ${escapeHtml(email)}
+                </span>
+                <span style="font-size:10px; color:#b8a392; margin-top:3px;"><i class="fas fa-info-circle"></i> No mobile</span>
+            </div>
+        `;
     }
 }
 
-// Escape HTML to prevent injection
+// Escape HTML helper
 function escapeHtml(str) {
     if (!str) return '—';
-    return str.replace(/[&<>]/g, function(m) {
+    return String(str).replace(/[&<>]/g, function(m) {
         if (m === '&') return '&amp;';
         if (m === '<') return '&lt;';
         if (m === '>') return '&gt;';
         return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+        return c;
     });
 }
 
@@ -451,8 +499,7 @@ window.deleteBooking = async function(bookingId) {
             if (dataTable) {
                 dataTable.ajax.reload(null, false);
             }
-            // Also update stats after reload
-            setTimeout(updateStatsFromData, 500);
+            setTimeout(updateStatsFromData, 300);
         } else {
             alert('Failed to delete. Please try again.');
         }
@@ -462,68 +509,52 @@ window.deleteBooking = async function(bookingId) {
     }
 };
 
-// Update stats from table data
+// Update stats from DataTable internal data
 function updateStatsFromData() {
     if (!dataTable) return;
-    const allData = dataTable.ajax.json();
-    if (allData && allData.data) {
-        const bookings = allData.data;
-        const total = bookings.length;
+    const api = dataTable;
+    const allData = api.rows().data();
+    if (allData && allData.length) {
+        let total = allData.length;
         const todayStr = new Date().toISOString().split('T')[0];
-        const todayCount = bookings.filter(b => b.date === todayStr).length;
-        const phoneCount = bookings.filter(b => b.phone && b.phone.trim() !== '').length;
-        
+        let todayCount = 0;
+        let phoneCount = 0;
+        for (let i = 0; i < allData.length; i++) {
+            const row = allData[i];
+            if (row.date === todayStr) todayCount++;
+            if (row.phone && row.phone.trim() !== '') phoneCount++;
+        }
         document.getElementById('totalCount').innerText = total;
         document.getElementById('todayCount').innerText = todayCount;
         document.getElementById('phoneCount').innerText = phoneCount;
     } else {
-        // fallback: try to get from current rows if json not loaded yet
-        setTimeout(() => {
-            if (dataTable && dataTable.rows) {
-                const rowsData = dataTable.rows().data();
-                if (rowsData && rowsData.length) {
-                    const total = rowsData.length;
-                    const todayStr = new Date().toISOString().split('T')[0];
-                    let todayCount = 0;
-                    let phoneCount = 0;
-                    rowsData.each(function(row) {
-                        if (row.date === todayStr) todayCount++;
-                        if (row.phone && row.phone.trim()) phoneCount++;
-                    });
-                    document.getElementById('totalCount').innerText = total;
-                    document.getElementById('todayCount').innerText = todayCount;
-                    document.getElementById('phoneCount').innerText = phoneCount;
-                }
-            }
-        }, 200);
+        document.getElementById('totalCount').innerText = '0';
+        document.getElementById('todayCount').innerText = '0';
+        document.getElementById('phoneCount').innerText = '0';
     }
 }
 
 $(document).ready(function () {
-    // Initialize DataTable with responsive support
+    // Initialize DataTable with responsive and full details on mobile
     dataTable = $('#bookingTable').DataTable({
         ajax: {
-            url: '/api/bookings',
-//			url: 'https://saloon-with-backend.onrender.com/api/bookings',
+//            url: '/api/bookings',
+			 url: 'https://saloon-with-backend.onrender.com/api/bookings',
             dataSrc: function(response) {
-                // response should be array of bookings
                 if (!response || !Array.isArray(response)) {
                     console.warn('Invalid response format');
                     return [];
                 }
-                
-                // Update stats after data load
+                // Update stats after load
                 setTimeout(() => {
                     const total = response.length;
                     const todayStr = new Date().toISOString().split('T')[0];
                     const todayCount = response.filter(b => b.date === todayStr).length;
                     const phoneCount = response.filter(b => b.phone && b.phone.trim() !== '').length;
-                    
                     document.getElementById('totalCount').innerText = total;
                     document.getElementById('todayCount').innerText = todayCount;
                     document.getElementById('phoneCount').innerText = phoneCount;
                 }, 50);
-                
                 return response;
             },
             error: function(xhr, status, error) {
@@ -536,7 +567,7 @@ $(document).ready(function () {
             { 
                 data: 'name',
                 render: function(data, type, row) {
-                    return `<strong>${escapeHtml(data || '—')}</strong>`;
+                    return `<div class="customer-name"><i class="fas fa-user-circle"></i> <strong>${escapeHtml(data || '—')}</strong></div>`;
                 }
             },
             { 
@@ -548,7 +579,7 @@ $(document).ready(function () {
             { 
                 data: 'service',
                 render: function(data) {
-                    return `<span class="mobile-badge">${escapeHtml(data || '—')}</span>`;
+                    return `<span class="mobile-badge"><i class="fas fa-cut" style="margin-right:4px;"></i> ${escapeHtml(data || '—')}</span>`;
                 }
             },
             { 
@@ -561,11 +592,12 @@ $(document).ready(function () {
                 data: 'notes',
                 render: function(data) {
                     let notes = data ? data.trim() : '';
-                    if (!notes) return '<span style="color:#b8a392;">—</span>';
-                    if (notes.length > 40) {
-                        return `<span title="${escapeHtml(notes)}">${escapeHtml(notes.substring(0, 37))}...</span>`;
+                    if (!notes) return '<span style="color:#b8a392; font-style:italic;">— No special requests —</span>';
+                    // Show full notes with nice styling, mobile friendly
+                    if (notes.length > 55) {
+                        return `<div class="notes-preview" title="${escapeHtml(notes)}"><i class="fas fa-pen-fancy" style="color:#a76d4a; margin-right:4px;"></i> ${escapeHtml(notes.substring(0, 52))}...</div>`;
                     }
-                    return escapeHtml(notes);
+                    return `<div class="notes-preview"><i class="fas fa-pen-fancy" style="color:#a76d4a; margin-right:4px;"></i> ${escapeHtml(notes)}</div>`;
                 }
             },
             {
@@ -577,14 +609,25 @@ $(document).ready(function () {
                 }
             }
         ],
-        order: [[3, 'desc']], // sort by date descending (newest first)
+        order: [[3, 'desc']], // sort by date descending
         pageLength: 10,
         responsive: {
             details: {
+                // On very small screens, responsive will auto-hide columns but we want all important visible.
+                // We force to keep all columns visible by setting responsive priority high but better: 
+                // disable auto-hide for critical columns. We'll set column priorities:
                 type: 'column',
                 target: 'tr'
             }
         },
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },  // Customer - always visible
+            { responsivePriority: 2, targets: 1 },  // Contact - always visible
+            { responsivePriority: 3, targets: 2 },  // Service - always visible
+            { responsivePriority: 4, targets: 3 },  // Date/Time
+            { responsivePriority: 5, targets: 4 },  // Notes
+            { responsivePriority: 6, targets: 5 }   // Action
+        ],
         language: {
             emptyTable: "📭 No bookings yet. Customers will appear here.",
             zeroRecords: "No matching bookings found.",
@@ -594,16 +637,16 @@ $(document).ready(function () {
             infoFiltered: "(filtered from _MAX_ total)"
         },
         drawCallback: function() {
-            // Ensure stats update after table redraw (delete/search)
+            // Update stats after every redraw (delete, search, page change)
             const api = this.api();
-            const total = api.rows().count();
-            const allData = api.rows().data();
-            if (allData && allData.length) {
+            const rowsData = api.rows().data();
+            if (rowsData && rowsData.length) {
+                const total = rowsData.length;
                 const todayStr = new Date().toISOString().split('T')[0];
                 let todayCount = 0;
                 let phoneCount = 0;
-                for (let i = 0; i < allData.length; i++) {
-                    const row = allData[i];
+                for (let i = 0; i < rowsData.length; i++) {
+                    const row = rowsData[i];
                     if (row.date === todayStr) todayCount++;
                     if (row.phone && row.phone.trim() !== '') phoneCount++;
                 }
@@ -615,17 +658,28 @@ $(document).ready(function () {
                 document.getElementById('todayCount').innerText = '0';
                 document.getElementById('phoneCount').innerText = '0';
             }
+            
+            // On mobile, ensure all phone links are tappable and visible
+            $('.phone-link').on('click', function(e) {
+                // Allow default behavior (open dialer)
+                e.stopPropagation();
+            });
         }
     });
     
-    // Fix responsive on window resize
+    // Recalculate responsive on window resize
     $(window).on('resize', function() {
         if (dataTable && dataTable.responsive) {
             dataTable.responsive.recalc();
         }
     });
+    
+    // Ensure that after each ajax reload, phone links stay clickable
+    $(document).on('click', '.phone-link', function(e) {
+        // Let the browser handle tel: links
+        return true;
+    });
 });
 </script>
-
 </body>
 </html>

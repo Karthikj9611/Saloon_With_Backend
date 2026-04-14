@@ -654,6 +654,32 @@
     font-size: 0.8rem;
     margin-top: 0.8rem;
 }
+
+/* FORCE VISIBLE ON ALL DEVICES - Add at end of your CSS */
+@media (max-width: 880px) {
+    input[type="date"],
+    input[type="time"],
+    textarea,
+    select {
+        display: block !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        -webkit-appearance: date-field !important;
+        appearance: auto !important;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+        display: block !important;
+    }
+    
+    .booking-form {
+        overflow: visible !important;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -876,6 +902,7 @@ if(form) {
         e.preventDefault();
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();  // ← ADD THIS LINE
         const service = document.getElementById('serviceSelect').value;
         const date = document.getElementById('date').value;
         const time = document.getElementById('time').value;
@@ -892,7 +919,7 @@ if(form) {
             return;
         }
         
-        // Check if slot already exists in DB (prevent duplicate)
+        // Check if slot already exists in DB
         try {
             const checkRes = await fetch(`/api/check-slot?date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`);
             const checkData = await checkRes.json();
@@ -906,12 +933,12 @@ if(form) {
             return;
         }
         
-        // Proceed to booking
+        // Proceed to booking - INCLUDE phone in the body
         try {
             const res = await fetch("/api/book", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, service, date, time, notes })
+                body: JSON.stringify({ name, email, phone, service, date, time, notes })  // ← ADD phone HERE
             });
             const data = await res.json();
             if(res.ok) {

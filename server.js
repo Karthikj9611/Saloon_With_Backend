@@ -19,10 +19,11 @@ mongoose.connect(process.env.MONGO_URI)
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
-// Schema
+// Schema - WITH phone field
 const bookingSchema = new mongoose.Schema({
     name: String,
     email: String,
+    phone: String,
     service: String,
     date: String,
     time: String,
@@ -34,67 +35,6 @@ const bookingSchema = new mongoose.Schema({
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);
-
-// API Route
-app.post("/api/book", async (req, res) => {
-    try {
-        const { name, email, service, date, time, notes } = req.body;
-
-        if (!name || !email || !service || !date || !time) {
-            return res.status(400).json({ message: "All fields required" });
-        }
-
-        const newBooking = new Booking({ name, email, service, date, time, notes });
-        await newBooking.save();
-
-        res.json({ message: "Booking saved successfully" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Server error" });
-    }
-});
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-app.get("/api/bookings", async (req, res) => {
-    try {
-        const bookings = await Booking.find().sort({ createdAt: -1 });
-        res.json(bookings);
-    } catch (err) {
-        res.status(500).json({ message: "Error fetching bookings" });
-    }
-});
-
-
-
-app.delete("/api/book/:id", async (req, res) => {
-    try {
-        await Booking.findByIdAndDelete(req.params.id);
-        res.json({ message: "Deleted" });
-    } catch {
-        res.status(500).json({ message: "Error deleting" });
-    }
-});
-
-app.put("/api/book/:id", async (req, res) => {
-    try {
-        const { name, service, date, time } = req.body;
-
-        await Booking.findByIdAndUpdate(req.params.id, {
-            name,
-            service,
-            date,
-            time
-        });
-
-        res.json({ message: "Updated" });
-    } catch {
-        res.status(500).json({ message: "Error updating" });
-    }
-});
 
 // Check if slot is already booked (for duplicate prevention)
 app.get("/api/check-slot", async (req, res) => {
@@ -110,10 +50,10 @@ app.get("/api/check-slot", async (req, res) => {
     }
 });
 
-// Modified POST endpoint with conflict detection
+// POST endpoint with conflict detection AND phone field
 app.post("/api/book", async (req, res) => {
     try {
-        const { name, email, service, date, time, notes } = req.body;
+        const { name, email, phone, service, date, time, notes } = req.body;
 
         if (!name || !email || !service || !date || !time) {
             return res.status(400).json({ message: "All fields required" });
@@ -128,7 +68,8 @@ app.post("/api/book", async (req, res) => {
             });
         }
 
-        const newBooking = new Booking({ name, email, service, date, time, notes });
+        // Save with phone field
+        const newBooking = new Booking({ name, email, phone, service, date, time, notes });
         await newBooking.save();
 
         res.json({ message: "Booking saved successfully" });
@@ -136,4 +77,46 @@ app.post("/api/book", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Server error" });
     }
+});
+
+// Get all bookings
+app.get("/api/bookings", async (req, res) => {
+    try {
+        const bookings = await Booking.find().sort({ createdAt: -1 });
+        res.json(bookings);
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching bookings" });
+    }
+});
+
+// Delete booking
+app.delete("/api/book/:id", async (req, res) => {
+    try {
+        await Booking.findByIdAndDelete(req.params.id);
+        res.json({ message: "Deleted" });
+    } catch {
+        res.status(500).json({ message: "Error deleting" });
+    }
+});
+
+// Update booking
+app.put("/api/book/:id", async (req, res) => {
+    try {
+        const { name, service, date, time, phone } = req.body;
+        await Booking.findByIdAndUpdate(req.params.id, {
+            name,
+            service,
+            date,
+            time,
+            phone
+        });
+        res.json({ message: "Updated" });
+    } catch {
+        res.status(500).json({ message: "Error updating" });
+    }
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
