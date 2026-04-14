@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>LUXE LOCKS | Modern Hair Studio</title>
+    <!-- Google Fonts + Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefaf6;
+            color: #1e1a17;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .logo, .nav-links a, .btn, .service-card h3, .price {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* custom scroll */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e6dbd1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b48b6b;
+            border-radius: 10px;
+        }
+
+        /* reusable — REDUCED PADDING GLOBALLY */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 3rem 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #a76d4a;
+            color: white;
+            padding: 0.7rem 1.6rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 14px rgba(167, 109, 74, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #a76d4a;
+            color: #a76d4a;
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: #a76d4a;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #8b5a3c;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        /* HEADER & NAV */
+        header {
+            background: #fffcf9;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            color: #a76d4a;
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2c241f;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #a76d4a;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(110deg, #f9ede4 0%, #fff3ea 100%);
+            border-radius: 0 0 40px 40px;
+        }
+        .hero-grid {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-content h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        .hero-content p {
+            font-size: 1rem;
+            color: #4a3b32;
+            margin-bottom: 1.6rem;
+            max-width: 480px;
+        }
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+        }
+
+        /* GRIDS: always 2 cols on mobile, but globally reduced padding */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* card styles - tighter padding */
+        .service-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.2rem 1rem;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            border: 1px solid #f3e9e2;
+        }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 25px rgba(167,109,74,0.08);
+        }
+        .service-icon {
+            font-size: 2.2rem;
+            color: #a76d4a;
+            margin-bottom: 0.6rem;
+        }
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.4rem;
+        }
+        .price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0.6rem 0;
+            color: #1e1a17;
+        }
+        .service-card p {
+            font-size: 0.85rem;
+            color: #6b584b;
+            line-height: 1.3;
+        }
+
+        .gallery-item {
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            box-shadow: 0 8px 18px -6px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 28px;
+            text-align: center;
+            padding: 1.2rem 0.8rem;
+            transition: 0.2s;
+            border: 1px solid #f0e4db;
+        }
+        .team-img {
+            width: 110px;
+            height: 110px;
+            background: #edd9cd;
+            border-radius: 50%;
+            margin: 0 auto 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            color: #a76d4a;
+            overflow: hidden;
+        }
+        .team-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        .team-card p {
+            color: #a76d4a;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .team-card small {
+            font-size: 0.75rem;
+            color: #8f7765;
+        }
+
+        .testi-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 28px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.02);
+            border: 1px solid #f1e2d8;
+        }
+        .stars {
+            color: #f5b642;
+            margin-bottom: 0.6rem;
+            font-size: 0.85rem;
+        }
+        .testi-card p {
+            font-style: italic;
+            margin-bottom: 0.7rem;
+            color: #3a2e27;
+            font-size: 0.85rem;
+        }
+        .customer {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* BOOKING - reduced padding */
+        .booking {
+            background: linear-gradient(135deg, #fff0e8, #fffaf5);
+            border-radius: 40px;
+            margin: 1rem 0;
+        }
+        .booking-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+        .booking-info {
+            flex: 1;
+        }
+        .booking-info h2 {
+            font-size: 2rem;
+        }
+        .booking-form {
+            flex: 1;
+            background: white;
+            padding: 1.6rem;
+            border-radius: 32px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.04);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 50px;
+            border: 1px solid #e2d4cb;
+            font-family: 'Inter', sans-serif;
+            background: #fefcf9;
+            outline: none;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .form-group textarea {
+            border-radius: 24px;
+            resize: vertical;
+        }
+        .booking-form .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #1e1a17;
+            color: #e7d9d0;
+            padding: 2rem 0 1.2rem;
+            margin-top: 1rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-col h4 {
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+        }
+        .footer-col p, .footer-col a {
+            font-size: 0.85rem;
+            color: #cdbcb0;
+            text-decoration: none;
+            line-height: 1.5;
+        }
+        .social-icons a {
+            color: #cdbcb0;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 1.2rem;
+            border-top: 1px solid #332a24;
+            font-size: 0.75rem;
+        }
+        .success-message {
+            background: #d4edc9;
+            color: #2c5e2a;
+            padding: 0.5rem;
+            border-radius: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            margin-top: 0.8rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .section-sub {
+            font-size: 0.9rem;
+            color: #7e695b;
+            margin-bottom: 1.8rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* ========== MOBILE: 2 columns for all, tighter spacing ========== */
+        @media (max-width: 880px) {
+            .menu-icon {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 68px;
+                left: -100%;
+                background: #fffcf9;
+                width: 75%;
+                height: calc(100vh - 68px);
+                flex-direction: column;
+                padding: 1.8rem;
+                box-shadow: 2px 8px 20px rgba(0,0,0,0.08);
+                transition: 0.3s;
+                gap: 1.5rem;
+                z-index: 999;
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .container {
+                padding: 0 1.2rem;
+            }
+            section {
+                padding: 2rem 0;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            /* 2 columns for all card grids */
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.9rem;
+            }
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .testimonial-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .service-card {
+                padding: 1rem 0.8rem;
+            }
+            .service-card h3 {
+                font-size: 1.2rem;
+            }
+            .price {
+                font-size: 1rem;
+            }
+            .service-icon {
+                font-size: 1.9rem;
+            }
+            .team-img {
+                width: 90px;
+                height: 90px;
+                font-size: 2.2rem;
+            }
+            .team-card h4 {
+                font-size: 1rem;
+            }
+            .booking-info h2 {
+                font-size: 1.7rem;
+            }
+            .booking-form {
+                padding: 1.2rem;
+            }
+        }
+
+        /* very small: still 2 columns but ultra tight */
+        @media (max-width: 560px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .services-grid {
+                gap: 0.8rem;
+            }
+            .service-card h3 {
+                font-size: 1rem;
+            }
+            .service-card p {
+                font-size: 0.75rem;
+            }
+            .price {
+                font-size: 0.9rem;
+            }
+            .team-img {
+                width: 75px;
+                height: 75px;
+                font-size: 1.8rem;
+            }
+            .gallery-grid {
+                gap: 0.7rem;
+            }
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .hero-grid {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">LUXE<span>LOCKS</span></div>
+            <div class="menu-icon" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#stylists">Stylists</a></li>
+                <li><a href="#booking">Book Now</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+    <!-- Booking + Appointment (reordered but appears above main? Actually moved after hero for natural flow) -->
+    <section id="booking" class="booking">
+        <div class="container">
+            <div class="booking-wrapper">
+                <div class="booking-info">
+                    <h2>Reserve your <br><span style="color:#a76d4a;">luxury moment</span></h2>
+                    <p style="margin: 0.8rem 0 1rem;">Secure your spot. Walk-ins welcome, appointments priority.</p>
+                    <div><i class="fas fa-phone-alt"></i> +1 (555) 328-9472</div>
+                    <div style="margin-top:0.5rem"><i class="fas fa-envelope"></i> hello@luxelocks.com</div>
+                    <div style="margin-top:0.5rem"><i class="fas fa-clock"></i> Mon-Sat: 9AM-8PM | Sun: 10AM-5PM</div>
+                </div>
+                <div class="booking-form">
+                    <h3 style="margin-bottom: 0.8rem; font-size: 1.3rem;">Request appointment</h3>
+                    <form id="appointmentForm">
+                        <div class="form-group"><input type="text" id="name" placeholder="Full name *" required></div>
+                        <div class="form-group"><input type="email" id="email" placeholder="Email *" required></div>
+                        <div class="form-group"><input type="tel" id="phone" placeholder="Phone"></div>
+                        <div class="form-group"><select id="serviceSelect">
+                            <option value="">Select service</option>
+                            <option>Precision Cut - $45</option>
+                            <option>Balayage & Color - $120+</option>
+                            <option>Blowout & Styling - $55</option>
+                            <option>Hair Treatment - $75</option>
+                            <option>Gentlemen's Grooming - $35</option>
+                            <option>Kids Cut - $28</option>
+                        </select></div>
+                        <div class="form-group"><input type="date" id="date" required></div>
+						<div class="form-group">
+  <input type="time" id="time" required>
+</div>
+                        <div class="form-group"><textarea id="notes" rows="2" placeholder="Special requests / stylist"></textarea></div>
+                        <button type="submit" class="btn" id="submitBooking">Confirm Booking</button>
+                        <div id="formFeedback" style="margin-top: 10px;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<main>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Where hair <br> becomes <span style="color:#a76d4a;">art</span></h1>
+                <p>Precision cuts, bold color, premium atmosphere.</p>
+                <a href="#booking" class="btn">Book appointment →</a>
+                <a href="#services" class="btn btn-outline" style="margin-left: 0.8rem;">Explore styles</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://placehold.co/600x500/f9ede4/a76d4a?text=Modern+Hair+Studio&font=playfair" alt="Hair studio hero" style="background:#f2e1d4;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section — ONE WORD DESCRIPTIONS (minimal) -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title">Signature Services</h2>
+            <div class="section-sub">Tailored & premium</div>
+            <div class="services-grid">
+                <div class="service-card"><div class="service-icon"><i class="fas fa-cut"></i></div><h3>Precision Cut</h3><p>Flawless.</p><div class="price">from $45</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-palette"></i></div><h3>Balayage & Color</h3><p>Vivid.</p><div class="price">from $120</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-wind"></i></div><h3>Blowout & Styling</h3><p>Glamorous.</p><div class="price">from $55</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-leaf"></i></div><h3>Hair Treatment</h3><p>Repair.</p><div class="price">from $75</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-male"></i></div><h3>Gentlemen's Grooming</h3><p>Sharp.</p><div class="price">from $35</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-child"></i></div><h3>Kids Cut</h3><p>Gentle.</p><div class="price">from $28</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Work</h2>
+            <div class="section-sub">Transformations</div>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://placehold.co/400x400/f0e1d6/a76d4a?text=Balayage" alt="Hair style 1"></div>
+                <div class="gallery-item"><img src="https://placehold.co/400x400/ecd9cc/a76d4a?text=Textured+Bob" alt="Hair style 2"></div>
+                <div class="gallery-item"><img src="https://placehold.co/400x400/f5e8df/a76d4a?text=Fade" alt="Hair style 3"></div>
+                <div class="gallery-item"><img src="https://placehold.co/400x400/e8d3c6/a76d4a?text=Updo" alt="Hair style 4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stylists -->
+    <section id="stylists">
+        <div class="container">
+            <h2 class="section-title">Master Stylists</h2>
+            <div class="section-sub">Creativity meets experience</div>
+            <div class="team-grid">
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Emma Laurent</h4><p>Creative Director</p><small>color specialist</small></div>
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>James Carter</h4><p>Master Barber</p><small>fades & precision</small></div>
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Sophia Chen</h4><p>Extension Expert</p><small>bridal volume</small></div>
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Liam O’Neil</h4><p>Texture Artist</p><small>curly specialist</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials (light) - 2 columns on mobile fine, short quotes -->
+    <section id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Client Love</h2>
+            <div class="section-sub">Real reviews</div>
+            <div class="testimonial-grid">
+                <div class="testi-card"><div class="stars">★★★★★</div><p>"Obsessed with my balayage! Modern & relaxing."</p><div class="customer">— Jessica M.</div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><p>"Best barber, flawless fade. Coming back."</p><div class="customer">— Marcus R.</div></div>
+                <div class="testi-card"><div class="stars">★★★★☆</div><p>"Gorgeous blowout and scalp massage. New favorite."</p><div class="customer">— Priya K.</div></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer id="contact">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col"><h4>LUXE LOCKS</h4><p>Modern atelier, sustainable luxury & bespoke styling.</p><div class="social-icons" style="margin-top: 0.8rem;"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a></div></div>
+            <div class="footer-col"><h4>Visit us</h4><p>📍 451 Style Avenue, NYC<br>📞 +1 (555) 328-9472<br>✉️ hello@luxelocks.com</p></div>
+            <div class="footer-col"><h4>Opening Hours</h4><p>Mon-Fri: 9am–8pm<br>Sat: 9am–7pm<br>Sun: 10am–5pm</p></div>
+        </div>
+        <div class="copyright">© 2026 LUXE LOCKS — Where style meets confidence.</div>
+    </div>
+</footer>
+
+<script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    if(menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    }
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Set min date for booking
+    const dateInput = document.getElementById('date');
+    if(dateInput) {
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2,'0');
+        let dd = String(today.getDate()).padStart(2,'0');
+        dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+    }
+
+    // Appointment form submission
+    const form = document.getElementById('appointmentForm');
+    const feedbackDiv = document.getElementById('formFeedback');
+    
+    if(form) {
+	form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const service = document.getElementById('serviceSelect').value;
+    const date = document.getElementById('date').value;
+	const notes = document.getElementById('notes').value.trim();
+
+    const time = document.getElementById('time').value;
+if(!name || !email || !service || !date || !time) {
+        feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ Fill all required fields.</div>';
+        return;
+    }
+
+    if(!email.includes('@') || !email.includes('.')) {
+        feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">📧 Valid email needed.</div>';
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:3000/api/book", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, service, date, time, notes })
+        });
+
+        const data = await res.json();
+
+        if(res.ok) {
+            feedbackDiv.innerHTML = `<div class="success-message">✨ Thank you, ${name}! Your ${service} on ${date} is requested.</div>`;
+            form.reset();
+        } else {
+            feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ ${data.message}</div>`;
+        }
+
+    } catch (error) {
+        feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">❌ Server error</div>`;
+    }
+
+    setTimeout(() => {
+        feedbackDiv.innerHTML = '';
+    }, 5000);
+});
+	}
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if(targetId === "#" || targetId === "") return;
+            const targetElem = document.querySelector(targetId);
+            if(targetElem) {
+                e.preventDefault();
+                targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
+    // Active nav highlight on scroll
+    const sections = document.querySelectorAll("section");
+    const navItems = document.querySelectorAll(".nav-links a");
+    window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 90;
+            if(pageYOffset >= sectionTop) {
+                current = section.getAttribute("id");
+            }
+        });
+        navItems.forEach(link => {
+            link.classList.remove("active");
+            if(link.getAttribute("href") === `#${current}`) {
+                link.classList.add("active");
+            }
+        });
+    });
+</script>
+</body>
+</html>
