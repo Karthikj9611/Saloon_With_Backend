@@ -58,3 +58,40 @@ app.post("/api/book", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+app.get("/api/bookings", async (req, res) => {
+    try {
+        const bookings = await Booking.find().sort({ createdAt: -1 });
+        res.json(bookings);
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching bookings" });
+    }
+});
+
+
+
+app.delete("/api/book/:id", async (req, res) => {
+    try {
+        await Booking.findByIdAndDelete(req.params.id);
+        res.json({ message: "Deleted" });
+    } catch {
+        res.status(500).json({ message: "Error deleting" });
+    }
+});
+
+app.put("/api/book/:id", async (req, res) => {
+    try {
+        const { name, service, date, time } = req.body;
+
+        await Booking.findByIdAndUpdate(req.params.id, {
+            name,
+            service,
+            date,
+            time
+        });
+
+        res.json({ message: "Updated" });
+    } catch {
+        res.status(500).json({ message: "Error updating" });
+    }
+});
