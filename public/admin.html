@@ -202,7 +202,7 @@
             font-weight: 500;
         }
         .notes-preview {
-            max-width: 180px;
+            max-width: 200px;
             white-space: normal;
             word-break: break-word;
             font-size: 12px;
@@ -267,7 +267,10 @@
             color: #b8a392;
         }
 
-        /* MOBILE OPTIMIZATIONS: all details visible, phone clickable */
+        /* ============================================= */
+        /* CRITICAL MOBILE FIX: Ensure ALL columns visible 
+           No hidden columns on any mobile size */
+        /* ============================================= */
         @media (max-width: 768px) {
             body {
                 padding: 12px;
@@ -289,10 +292,15 @@
                 padding: 12px;
                 overflow-x: auto;
             }
-            /* Make table more compact but show all columns */
+            /* Force table to show all columns by allowing horizontal scroll if needed */
+            table.dataTable {
+                min-width: 700px;  /* Ensures all columns have enough space, but if screen smaller, user can scroll horizontally */
+                width: 100% !important;
+            }
             table.dataTable thead th {
                 padding: 10px 8px;
-                font-size: 11px;
+                font-size: 12px;
+                white-space: nowrap;
             }
             table.dataTable tbody td {
                 padding: 10px 8px;
@@ -311,12 +319,21 @@
                 padding: 3px 8px;
             }
             .notes-preview {
-                max-width: 140px;
+                max-width: 160px;
                 font-size: 11px;
             }
             .dataTables_filter input {
                 width: 180px;
                 font-size: 12px;
+            }
+            /* Override DataTables responsive auto-hide: we disable column hiding */
+            table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before,
+            table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
+                display: none !important;
+            }
+            /* Ensure no child row details are forced */
+            .dtr-control {
+                display: none !important;
             }
         }
 
@@ -340,20 +357,23 @@
                 margin-left: 0;
                 margin-top: 5px;
             }
-            /* Ensure all columns readable on tiny screens */
+            /* Table scroll for very narrow screens but all columns visible */
+            table.dataTable {
+                min-width: 680px;
+            }
             table.dataTable thead th {
-                font-size: 10px;
-                padding: 8px 4px;
+                font-size: 11px;
+                padding: 8px 5px;
             }
             table.dataTable tbody td {
                 font-size: 11px;
-                padding: 8px 4px;
+                padding: 8px 5px;
             }
             .customer-name {
                 font-size: 12px;
             }
             .phone-link {
-                font-size: 11px;
+                font-size: 10px;
                 padding: 2px 6px;
             }
             .contact-details .email-small {
@@ -363,6 +383,18 @@
                 padding: 4px 8px;
                 font-size: 10px;
             }
+        }
+
+        /* Disable responsive child row toggles completely for full visibility */
+        table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control,
+        table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
+            padding-left: 30px !important;
+        }
+        /* Remove the toggle icons to prevent hiding columns */
+        table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before,
+        table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
+            content: none !important;
+            display: none !important;
         }
 
         footer {
@@ -401,7 +433,7 @@
 
     <div class="card">
         <div class="table-wrapper">
-            <table id="bookingTable" class="display responsive nowrap" style="width:100%">
+            <table id="bookingTable" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
                         <th>Customer</th>
@@ -419,7 +451,7 @@
         </div>
     </div>
     <footer>
-        <i class="fas fa-phone"></i> Tap phone number to call directly • Real-time booking management
+        <i class="fas fa-phone"></i> Tap phone number to call directly • All columns visible on mobile (horizontal scroll if needed)
     </footer>
 </div>
 
@@ -436,19 +468,19 @@ function formatDateTime(dateStr, timeStr) {
             displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
         }
     }
-    return `<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;"><i class="far fa-calendar-alt" style="color:#a76d4a;"></i> <strong>${displayDate}</strong> ${timeStr ? `<span style="background:#f0e4db; padding:2px 8px; border-radius:30px; font-size:11px;"><i class="far fa-clock"></i> ${escapeHtml(timeStr)}</span>` : ''}</div>`;
+    return `<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;"><i class="far fa-calendar-alt" style="color:#a76d4a;"></i> <strong>${escapeHtml(displayDate)}</strong> ${timeStr ? `<span style="background:#f0e4db; padding:2px 8px; border-radius:30px; font-size:11px;"><i class="far fa-clock"></i> ${escapeHtml(timeStr)}</span>` : ''}</div>`;
 }
 
-// MAIN CHANGE: Show mobile number as clickable dial link (tel:), email as fallback
+// Show mobile number as clickable dial link (tel:), email as fallback, fully visible
 function getContactDisplay(booking) {
     const phone = booking.phone && booking.phone.trim() !== '' ? booking.phone.trim() : null;
     const email = booking.email || '—';
     
     if (phone) {
-        // Clean phone number: remove spaces, keep digits and plus
+        // Clean phone number for tel: but keep display as original
         let cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
         if (!cleanPhone.startsWith('+') && !cleanPhone.startsWith('0')) {
-            // assume Indian number, add +91? but we just use as is for tel:
+            // Accept as is
             cleanPhone = cleanPhone;
         }
         return `
@@ -460,7 +492,6 @@ function getContactDisplay(booking) {
             </div>
         `;
     } else {
-        // No phone: show email only, no dial button
         return `
             <div class="contact-details">
                 <span style="background:#f1eae4; padding:4px 10px; border-radius:30px; display:inline-flex; align-items:center; gap:6px; font-size:12px;">
@@ -480,8 +511,6 @@ function escapeHtml(str) {
         if (m === '<') return '&lt;';
         if (m === '>') return '&gt;';
         return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-        return c;
     });
 }
 
@@ -490,7 +519,8 @@ window.deleteBooking = async function(bookingId) {
     if (!confirm('🗑️ Delete this booking permanently?')) return;
     
     try {
-        const response = await fetch(`/api/book/${bookingId}`, { 
+        // Use relative or configured backend URL (same as ajax source)
+        const response = await fetch(`https://saloon-with-backend.onrender.com/api/book/${bookingId}`, { 
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -535,17 +565,17 @@ function updateStatsFromData() {
 }
 
 $(document).ready(function () {
-    // Initialize DataTable with responsive and full details on mobile
+    // Initialize DataTable with "nowrap" but ensure horizontal scroll on small screens, and COMPLETELY disable responsive hiding
+    // We'll remove responsive class and use simple scroll, but we keep responsive library only for recalc? Actually we don't want hiding columns.
+    // Better: disable responsive entirely and rely on overflow-x:auto from wrapper.
     dataTable = $('#bookingTable').DataTable({
         ajax: {
-//            url: '/api/bookings',
-			 url: 'https://saloon-with-backend.onrender.com/api/bookings',
+            url: 'https://saloon-with-backend.onrender.com/api/bookings',
             dataSrc: function(response) {
                 if (!response || !Array.isArray(response)) {
                     console.warn('Invalid response format');
                     return [];
                 }
-                // Update stats after load
                 setTimeout(() => {
                     const total = response.length;
                     const todayStr = new Date().toISOString().split('T')[0];
@@ -593,9 +623,9 @@ $(document).ready(function () {
                 render: function(data) {
                     let notes = data ? data.trim() : '';
                     if (!notes) return '<span style="color:#b8a392; font-style:italic;">— No special requests —</span>';
-                    // Show full notes with nice styling, mobile friendly
-                    if (notes.length > 55) {
-                        return `<div class="notes-preview" title="${escapeHtml(notes)}"><i class="fas fa-pen-fancy" style="color:#a76d4a; margin-right:4px;"></i> ${escapeHtml(notes.substring(0, 52))}...</div>`;
+                    // Show full notes, no truncation on mobile? keep full info
+                    if (notes.length > 70) {
+                        return `<div class="notes-preview" title="${escapeHtml(notes)}"><i class="fas fa-pen-fancy" style="color:#a76d4a; margin-right:4px;"></i> ${escapeHtml(notes.substring(0, 68))}...</div>`;
                     }
                     return `<div class="notes-preview"><i class="fas fa-pen-fancy" style="color:#a76d4a; margin-right:4px;"></i> ${escapeHtml(notes)}</div>`;
                 }
@@ -609,24 +639,15 @@ $(document).ready(function () {
                 }
             }
         ],
-        order: [[3, 'desc']], // sort by date descending
+        order: [[3, 'desc']],
         pageLength: 10,
-        responsive: {
-            details: {
-                // On very small screens, responsive will auto-hide columns but we want all important visible.
-                // We force to keep all columns visible by setting responsive priority high but better: 
-                // disable auto-hide for critical columns. We'll set column priorities:
-                type: 'column',
-                target: 'tr'
-            }
-        },
+        // Crucial: Disable responsive plugin's column hiding completely to ensure all columns (including service, date, notes, action) appear on mobile.
+        // We'll remove responsive integration: set responsive to false. Since we have overflow scroll, we don't need responsive collapsing.
+        responsive: false,
+        scrollX: true,        // This enables horizontal scrolling on small screens, ensuring all columns visible!
+        autoWidth: false,
         columnDefs: [
-            { responsivePriority: 1, targets: 0 },  // Customer - always visible
-            { responsivePriority: 2, targets: 1 },  // Contact - always visible
-            { responsivePriority: 3, targets: 2 },  // Service - always visible
-            { responsivePriority: 4, targets: 3 },  // Date/Time
-            { responsivePriority: 5, targets: 4 },  // Notes
-            { responsivePriority: 6, targets: 5 }   // Action
+            { width: 'auto', targets: '_all' }
         ],
         language: {
             emptyTable: "📭 No bookings yet. Customers will appear here.",
@@ -637,7 +658,7 @@ $(document).ready(function () {
             infoFiltered: "(filtered from _MAX_ total)"
         },
         drawCallback: function() {
-            // Update stats after every redraw (delete, search, page change)
+            // Update stats after every redraw
             const api = this.api();
             const rowsData = api.rows().data();
             if (rowsData && rowsData.length) {
@@ -659,26 +680,24 @@ $(document).ready(function () {
                 document.getElementById('phoneCount').innerText = '0';
             }
             
-            // On mobile, ensure all phone links are tappable and visible
+            // Ensure phone links are tappable
             $('.phone-link').on('click', function(e) {
-                // Allow default behavior (open dialer)
                 e.stopPropagation();
             });
         }
     });
     
-    // Recalculate responsive on window resize
+    // Add some manual adjustments to ensure that on small devices table container uses overflow-x:auto which we already have.
+    // Also ensure that DataTables' scrollX wrapper is compatible.
     $(window).on('resize', function() {
-        if (dataTable && dataTable.responsive) {
-            dataTable.responsive.recalc();
+        // No responsive recalc needed because we disabled responsive. But ensure scrollX works.
+        if (dataTable && dataTable.settings) {
+            // adjust if needed
         }
     });
     
-    // Ensure that after each ajax reload, phone links stay clickable
-    $(document).on('click', '.phone-link', function(e) {
-        // Let the browser handle tel: links
-        return true;
-    });
+    // Prevent any hidden columns due to legacy responsive styles
+    $('head').append('<style>table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before { display: none !important; } .dtr-control { display: none !important; } .dataTables_scrollBody thead th { white-space: nowrap; }</style>');
 });
 </script>
 </body>
