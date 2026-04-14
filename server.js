@@ -95,3 +95,45 @@ app.put("/api/book/:id", async (req, res) => {
         res.status(500).json({ message: "Error updating" });
     }
 });
+
+// Check if slot is already booked (for duplicate prevention)
+app.get("/api/check-slot", async (req, res) => {
+    try {
+        const { date, time } = req.query;
+        if (!date || !time) {
+            return res.json({ available: true });
+        }
+        const existing = await Booking.findOne({ date, time });
+        res.json({ available: !existing });
+    } catch (err) {
+        res.status(500).json({ available: true });
+    }
+});
+
+// Modified POST endpoint with conflict detection
+app.post("/api/book", async (req, res) => {
+    try {
+        const { name, email, service, date, time, notes } = req.body;
+
+        if (!name || !email || !service || !date || !time) {
+            return res.status(400).json({ message: "All fields required" });
+        }
+
+        // Check for duplicate slot
+        const existingBooking = await Booking.findOne({ date, time });
+        if (existingBooking) {
+            return res.status(409).json({ 
+                conflict: true, 
+                message: `Slot on ${date} at ${time} is already booked. Please choose a different time.` 
+            });
+        }
+
+        const newBooking = new Booking({ name, email, service, date, time, notes });
+        await newBooking.save();
+
+        res.json({ message: "Booking saved successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});

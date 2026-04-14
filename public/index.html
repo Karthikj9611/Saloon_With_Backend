@@ -595,6 +595,65 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
+		
+		
+		.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.2s;
+}
+.modal-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+.modal-container {
+    background: white;
+    max-width: 400px;
+    width: 90%;
+    border-radius: 32px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+}
+.modal-container i {
+    font-size: 3rem;
+    color: #a76d4a;
+    margin-bottom: 0.8rem;
+}
+.modal-container h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+}
+.modal-btn {
+    background: #a76d4a;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+.error-message {
+    background: #ffe0b5;
+    color: #a55117;
+    padding: 0.5rem;
+    border-radius: 40px;
+    text-align: center;
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+}
     </style>
 </head>
 <body>
@@ -739,6 +798,16 @@
             </div>
         </div>
     </section>
+	
+	<!-- Modal for duplicate booking alert -->
+<div class="modal-overlay" id="alertModal">
+    <div class="modal-container">
+        <i class="fas fa-calendar-times"></i>
+        <h3>Slot Unavailable</h3>
+        <p id="modalMessage">This time slot is already booked. Please choose a different date or time.</p>
+        <button class="modal-btn" id="closeModalBtn">OK, Got it</button>
+    </div>
+</div>
 
     <section id="testimonials">
         <div class="container">
@@ -790,41 +859,79 @@
     const form = document.getElementById('appointmentForm');
     const feedbackDiv = document.getElementById('formFeedback');
     
-    if(form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const service = document.getElementById('serviceSelect').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            if(!name || !email || !service || !date || !time) {
-                feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ Please fill all required fields.</div>';
+// Modal handling
+const modal = document.getElementById('alertModal');
+const modalMessageSpan = document.getElementById('modalMessage');
+const closeModalBtn = document.getElementById('closeModalBtn');
+function showConflictModal(message) {
+    modalMessageSpan.innerText = message || "This time slot is already booked. Please choose a different date or time.";
+    modal.classList.add('active');
+}
+function closeModal() { modal.classList.remove('active'); }
+if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+
+if(form) {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const notes = document.getElementById('notes').value;
+        
+        if(!name || !email || !service || !date || !time) {
+            feedbackDiv.innerHTML = '<div class="error-message">⚠️ Please fill all required fields.</div>';
+            setTimeout(() => feedbackDiv.innerHTML = '', 4000);
+            return;
+        }
+        if(!email.includes('@') || !email.includes('.')) {
+            feedbackDiv.innerHTML = '<div class="error-message">📧 Enter a valid email.</div>';
+            setTimeout(() => feedbackDiv.innerHTML = '', 4000);
+            return;
+        }
+        
+        // Check if slot already exists in DB (prevent duplicate)
+        try {
+            const checkRes = await fetch(`/api/check-slot?date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}`);
+            const checkData = await checkRes.json();
+            if(!checkData.available) {
+                showConflictModal(`Sorry, the slot on ${date} at ${time} is already reserved. Please pick another time.`);
                 return;
             }
-            if(!email.includes('@') || !email.includes('.')) {
-                feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">📧 Enter a valid email.</div>';
-                return;
-            }
-            try {
-                const res = await fetch("/api/book", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name, email, service, date, time, notes: document.getElementById('notes').value })
-                });
-                const data = await res.json();
-                if(res.ok) {
-                    feedbackDiv.innerHTML = `<div class="success-message">✨ Thank you, ${name}! Your ${service} on ${date} is confirmed.</div>`;
-                    form.reset();
+        } catch(err) {
+            feedbackDiv.innerHTML = '<div class="error-message">⚠️ Unable to verify slot availability. Please try again.</div>';
+            setTimeout(() => feedbackDiv.innerHTML = '', 3000);
+            return;
+        }
+        
+        // Proceed to booking
+        try {
+            const res = await fetch("/api/book", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, service, date, time, notes })
+            });
+            const data = await res.json();
+            if(res.ok) {
+                feedbackDiv.innerHTML = `<div class="success-message">✨ Thank you, ${name}! Your ${service} on ${date} at ${time} is confirmed.</div>`;
+                form.reset();
+                setTimeout(() => feedbackDiv.innerHTML = '', 5000);
+            } else {
+                if(data.conflict) {
+                    showConflictModal(data.message || "This time slot is already taken.");
                 } else {
-                    feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ ${data.message}</div>`;
+                    feedbackDiv.innerHTML = `<div class="error-message">⚠️ ${data.message || "Booking failed"}</div>`;
+                    setTimeout(() => feedbackDiv.innerHTML = '', 4000);
                 }
-            } catch (error) {
-                feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">❌ Server error. Please call us.</div>`;
             }
-            setTimeout(() => { feedbackDiv.innerHTML = ''; }, 5000);
-        });
-    }
+        } catch (error) {
+            feedbackDiv.innerHTML = `<div class="error-message">❌ Server error. Please call us to book.</div>`;
+            setTimeout(() => feedbackDiv.innerHTML = '', 4000);
+        }
+    });
+}
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
