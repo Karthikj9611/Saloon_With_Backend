@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>LUXE LOCKS | Modern Hair Studio</title>
+    <title>LUXE LOCKS | Modern Hair Studio - Bangalore</title>
     <!-- Google Fonts + Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -25,7 +25,6 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* custom scroll */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -37,7 +36,6 @@
             border-radius: 10px;
         }
 
-        /* reusable — REDUCED PADDING GLOBALLY */
         .container {
             max-width: 1280px;
             margin: 0 auto;
@@ -82,7 +80,6 @@
             box-shadow: 0 12px 20px rgba(0,0,0,0.1);
         }
 
-        /* HEADER & NAV */
         header {
             background: #fffcf9;
             box-shadow: 0 2px 12px rgba(0,0,0,0.02);
@@ -134,7 +131,6 @@
             cursor: pointer;
         }
 
-        /* HERO */
         .hero {
             background: linear-gradient(110deg, #f9ede4 0%, #fff3ea 100%);
             border-radius: 0 0 40px 40px;
@@ -170,7 +166,7 @@
             box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
         }
 
-        /* GRIDS: always 2 cols on mobile, but globally reduced padding */
+        /* Desktop Defaults: Services 3 cols, Gallery 4 cols, Team 4 cols, Testimonials 3 cols, Products 4 cols */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -195,7 +191,13 @@
             gap: 1.5rem;
         }
 
-        /* card styles - tighter padding */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Card styles */
         .service-card {
             background: white;
             border-radius: 24px;
@@ -306,7 +308,6 @@
             font-size: 0.85rem;
         }
 
-        /* BOOKING - reduced padding */
         .booking {
             background: linear-gradient(135deg, #fff0e8, #fffaf5);
             border-radius: 40px;
@@ -354,7 +355,6 @@
             text-align: center;
         }
 
-        /* FOOTER */
         footer {
             background: #1e1a17;
             color: #e7d9d0;
@@ -409,7 +409,55 @@
             letter-spacing: 0.3px;
         }
 
-        /* ========== MOBILE: 2 columns for all, tighter spacing ========== */
+        .product-category {
+            margin-bottom: 2.5rem;
+        }
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #5e3e2b;
+            border-left: 4px solid #a76d4a;
+            padding-left: 1rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #f3e9e2;
+            transition: 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 25px rgba(167,109,74,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 0.8rem;
+        }
+        .product-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .product-card p {
+            font-size: 0.8rem;
+            color: #6b584b;
+        }
+        .product-card .price {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        /* ========== MOBILE: ALL SECTIONS BECOME 2 COLUMNS ========== */
         @media (max-width: 880px) {
             .menu-icon {
                 display: block;
@@ -440,23 +488,25 @@
             .hero-content h1 {
                 font-size: 2rem;
             }
-            /* 2 columns for all card grids */
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .hero-grid {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            /* ALL GRIDS: FORCE 2 COLUMNS ON MOBILE */
+            .services-grid,
+            .gallery-grid,
+            .team-grid,
+            .testimonial-grid,
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
                 gap: 1rem;
             }
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.9rem;
-            }
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-            .testimonial-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
+            
             .service-card {
                 padding: 1rem 0.8rem;
             }
@@ -466,31 +516,36 @@
             .price {
                 font-size: 1rem;
             }
-            .service-icon {
-                font-size: 1.9rem;
-            }
             .team-img {
                 width: 90px;
                 height: 90px;
                 font-size: 2.2rem;
             }
-            .team-card h4 {
-                font-size: 1rem;
-            }
             .booking-info h2 {
-                font-size: 1.7rem;
+                font-size: 1.5rem;
+                line-height: 1.2;
+            }
+            .booking-wrapper {
+                flex-direction: column;
             }
             .booking-form {
-                padding: 1.2rem;
+                width: 100%;
+            }
+            .category-title {
+                font-size: 1.3rem;
             }
         }
 
-        /* very small: still 2 columns but ultra tight */
+        /* Very small devices: keep 2 columns but tighter */
         @media (max-width: 560px) {
             .container {
                 padding: 0 1rem;
             }
-            .services-grid {
+            .services-grid,
+            .gallery-grid,
+            .team-grid,
+            .testimonial-grid,
+            .products-grid {
                 gap: 0.8rem;
             }
             .service-card h3 {
@@ -507,60 +562,39 @@
                 height: 75px;
                 font-size: 1.8rem;
             }
-            .gallery-grid {
-                gap: 0.7rem;
-            }
             .hero-content h1 {
                 font-size: 1.8rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
             }
             .btn {
                 padding: 0.6rem 1.2rem;
                 font-size: 0.85rem;
             }
-            .section-title {
-                font-size: 1.7rem;
+            .product-card img {
+                height: 150px;
             }
         }
-
-        @media (max-width: 680px) {
-            .hero-grid {
-                flex-direction: column-reverse;
-                text-align: center;
+        
+        /* Ensure desktop stays as original (no override) */
+        @media (min-width: 881px) {
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
-            .hero-content p {
-                margin-left: auto;
-                margin-right: auto;
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .team-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .testimonial-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
-		
-		.booking-info h2 {
-    white-space: nowrap;
-    font-size: 1.4rem;
-}
-
-@media (max-width: 880px) {
-    .booking-info h2 {
-        font-size: 1.5rem;
-        line-height: 1.2;
-    }
-}
-
-.booking-wrapper {
-    display: flex;
-    flex-direction: column;   /* 👈 FORCE TOP → BOTTOM */
-    gap: 1.5rem;
-}
-
-.booking-form {
-    width: 100%;
-    max-width: 100%;   /* remove any limit */
-    flex: none;        /* stop flex shrinking */
-}
-
-.booking-wrapper {
-    display: flex;
-    flex-direction: column;  /* already added earlier */
-}
     </style>
 </head>
 <body>
@@ -574,6 +608,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#services">Services</a></li>
+                <li><a href="#products">Products</a></li>
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#stylists">Stylists</a></li>
                 <li><a href="#booking">Book Now</a></li>
@@ -583,111 +618,136 @@
     </div>
 </header>
 
-    <!-- Booking + Appointment (reordered but appears above main? Actually moved after hero for natural flow) -->
-    <section id="booking" class="booking">
-        <div class="container">
-            <div class="booking-wrapper">
-                <div class="booking-info">
-                    <h2>Reserve your <span style="color:#a76d4a;">luxury moment</span></h2>
-                    <div style="margin-top:0.5rem"><i class="fas fa-clock"></i> Mon-Sat: 9AM-8PM | Sun: 10AM-5PM</div>
-                </div>
-                <div class="booking-form">
-                    <h3 style="margin-bottom: 0.8rem; font-size: 1.3rem;">Request appointment</h3>
-                    <form id="appointmentForm">
-                        <div class="form-group"><input type="text" id="name" placeholder="Full name *" required></div>
-                        <div class="form-group"><input type="email" id="email" placeholder="Email *" required></div>
-                        <div class="form-group"><input type="tel" id="phone" placeholder="Phone"></div>
-                        <div class="form-group"><select id="serviceSelect">
-                            <option value="">Select service</option>
-                            <option>Precision Cut - $45</option>
-                            <option>Balayage & Color - $120+</option>
-                            <option>Blowout & Styling - $55</option>
-                            <option>Hair Treatment - $75</option>
-                            <option>Gentlemen's Grooming - $35</option>
-                            <option>Kids Cut - $28</option>
-                        </select></div>
-                        <div class="form-group"><input type="date" id="date" required></div>
-						<div class="form-group">
-  <input type="time" id="time" required>
-</div>
-                        <div class="form-group"><textarea id="notes" rows="2" placeholder="Special requests / stylist"></textarea></div>
-                        <button type="submit" class="btn" id="submitBooking">Confirm Booking</button>
-                        <div id="formFeedback" style="margin-top: 10px;"></div>
-                    </form>
-                </div>
+<section id="booking" class="booking">
+    <div class="container">
+        <div class="booking-wrapper">
+            <div class="booking-info">
+                <h2>Reserve your <span style="color:#a76d4a;">luxury moment</span> in Bangalore</h2>
+                <div style="margin-top:0.5rem"><i class="fas fa-clock"></i> Mon-Sat: 10AM-9PM | Sun: 11AM-6PM</div>
+                <div style="margin-top:0.3rem"><i class="fas fa-location-dot"></i> Indiranagar | Koramangala | JP Nagar</div>
+            </div>
+            <div class="booking-form">
+                <h3 style="margin-bottom: 0.8rem; font-size: 1.3rem;">Request appointment</h3>
+                <form id="appointmentForm">
+                    <div class="form-group"><input type="text" id="name" placeholder="Full name *" required></div>
+                    <div class="form-group"><input type="email" id="email" placeholder="Email *" required></div>
+                    <div class="form-group"><input type="tel" id="phone" placeholder="Phone"></div>
+                    <div class="form-group"><select id="serviceSelect">
+                        <option value="">Select service</option>
+                        <option>Precision Cut - ₹799</option>
+                        <option>Balayage & Color - ₹3500+</option>
+                        <option>Blowout & Styling - ₹999</option>
+                        <option>Keratin Treatment - ₹2500</option>
+                        <option>Gentlemen's Grooming - ₹599</option>
+                        <option>Kids Cut - ₹449</option>
+                    </select></div>
+                    <div class="form-group"><input type="date" id="date" required></div>
+                    <div class="form-group"><input type="time" id="time" required></div>
+                    <div class="form-group"><textarea id="notes" rows="2" placeholder="Special requests / preferred stylist"></textarea></div>
+                    <button type="submit" class="btn" id="submitBooking">Confirm Booking</button>
+                    <div id="formFeedback" style="margin-top: 10px;"></div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<div style="background:#a76d4a; color:white; padding:0.8rem; border-radius:20px; text-align:center; margin:0 1rem 1.5rem 1rem;">
+    ✨ Flat 20% OFF on all hair care products – Namma Bengaluru offer! ✨
+</div>
+
+<!-- PRODUCTS SECTION with categories, but on mobile shows 2 per row -->
+<section id="products" class="products">
+    <div class="container">
+        <h2 class="section-title">Premium Products</h2>
+        <div class="section-sub">Salon-quality essentials, curated for Indian hair</div>
+
+        <div class="product-category">
+            <div class="category-title"><i class="fas fa-shampoo"></i> Hair Care Essentials</div>
+            <div class="products-grid">
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348" alt="Organic Shampoo"><h3>Organic Shampoo</h3><p>Sulfate-free</p><div class="price">₹899</div><a href="#" class="btn">Shop</a></div>
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be" alt="Repair Conditioner"><h3>Repair Conditioner</h3><p>Nourishing</p><div class="price">₹849</div><a href="#" class="btn">Shop</a></div>
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd" alt="Hair Mask"><h3>Intense Hair Mask</h3><p>Deep repair</p><div class="price">₹1,499</div><a href="#" class="btn">Shop</a></div>
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" alt="Leave-in Serum"><h3>Silk Leave-in Serum</h3><p>Frizz control</p><div class="price">₹1,199</div><a href="#" class="btn">Shop</a></div>
+            </div>
+        </div>
+
+        <div class="product-category">
+            <div class="category-title"><i class="fas fa-wand-magic"></i> Styling & Finish</div>
+            <div class="products-grid">
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1631730359585-38a4935cbec4" alt="Heat Protectant"><h3>Heat Protectant Spray</h3><p>230°C protection</p><div class="price">₹699</div><a href="#" class="btn">Shop</a></div>
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348" alt="Volumizing Mousse"><h3>Volumizing Mousse</h3><p>Lift & body</p><div class="price">₹749</div><a href="#" class="btn">Shop</a></div>
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e" alt="Strong Hold Gel"><h3>Strong Hold Gel</h3><p>Flake-free</p><div class="price">₹599</div><a href="#" class="btn">Shop</a></div>
+                <div class="product-card"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc" alt="Texture Spray"><h3>Beach Waves Spray</h3><p>Effortless texture</p><div class="price">₹799</div><a href="#" class="btn">Shop</a></div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <main>
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="container hero-grid">
             <div class="hero-content">
-                <h1>Where hair <br> becomes <span style="color:#a76d4a;">art</span></h1>
-                <p>Precision cuts, bold color, premium atmosphere.</p>
+                <h1>Bangalore's <br>finest <span style="color:#a76d4a;">hair destination</span></h1>
+                <p>Trendsetting cuts, vibrant colours & a space that feels like home. Walk in, glow out.</p>
                 <a href="#booking" class="btn">Book appointment →</a>
                 <a href="#services" class="btn btn-outline" style="margin-left: 0.8rem;">Explore styles</a>
             </div>
             <div class="hero-image">
-                <img src="https://placehold.co/600x500/f9ede4/a76d4a?text=Modern+Hair+Studio&font=playfair" alt="Hair studio hero" style="background:#f2e1d4;">
+                <img src="https://placehold.co/600x500/f9ede4/a76d4a?text=Modern+Hair+Studio+%7C+Bangalore&font=playfair" alt="Bangalore hair studio hero">
             </div>
         </div>
     </section>
 
-    <!-- Services Section — ONE WORD DESCRIPTIONS (minimal) -->
     <section id="services">
         <div class="container">
             <h2 class="section-title">Signature Services</h2>
-            <div class="section-sub">Tailored & premium</div>
+            <div class="section-sub">Premium styling for the modern Bangalorean</div>
             <div class="services-grid">
-                <div class="service-card"><div class="service-icon"><i class="fas fa-cut"></i></div><h3>Precision Cut</h3><p>Flawless.</p><div class="price">from $45</div></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-palette"></i></div><h3>Balayage & Color</h3><p>Vivid.</p><div class="price">from $120</div></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-wind"></i></div><h3>Blowout & Styling</h3><p>Glamorous.</p><div class="price">from $55</div></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-leaf"></i></div><h3>Hair Treatment</h3><p>Repair.</p><div class="price">from $75</div></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-male"></i></div><h3>Gentlemen's Grooming</h3><p>Sharp.</p><div class="price">from $35</div></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-child"></i></div><h3>Kids Cut</h3><p>Gentle.</p><div class="price">from $28</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-cut"></i></div><h3>Precision Cut</h3><p>Sharp & tailored.</p><div class="price">₹799+</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-palette"></i></div><h3>Balayage & Color</h3><p>Lived-in luxury.</p><div class="price">₹3,500+</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-wind"></i></div><h3>Blowout & Styling</h3><p>Red carpet finish.</p><div class="price">₹999</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-leaf"></i></div><h3>Keratin Treatment</h3><p>Smooth & strong.</p><div class="price">₹2,500+</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-male"></i></div><h3>Gentlemen's Grooming</h3><p>Sharp fades & beard.</p><div class="price">₹599+</div></div>
+                <div class="service-card"><div class="service-icon"><i class="fas fa-child"></i></div><h3>Kids Cut</h3><p>Fun & gentle.</p><div class="price">₹449</div></div>
             </div>
         </div>
     </section>
 
-    <!-- Gallery -->
     <section id="gallery" class="gallery">
         <div class="container">
             <h2 class="section-title">Our Work</h2>
-            <div class="section-sub">Transformations</div>
+            <div class="section-sub">Real transformations from our Bangalore studios</div>
             <div class="gallery-grid">
-                <div class="gallery-item"><img src="https://placehold.co/400x400/f0e1d6/a76d4a?text=Balayage" alt="Hair style 1"></div>
-                <div class="gallery-item"><img src="https://placehold.co/400x400/ecd9cc/a76d4a?text=Textured+Bob" alt="Hair style 2"></div>
-                <div class="gallery-item"><img src="https://placehold.co/400x400/f5e8df/a76d4a?text=Fade" alt="Hair style 3"></div>
-                <div class="gallery-item"><img src="https://placehold.co/400x400/e8d3c6/a76d4a?text=Updo" alt="Hair style 4"></div>
+                <div class="gallery-item"><img src="https://placehold.co/400x400/f0e1d6/a76d4a?text=Balayage" alt="Balayage"></div>
+                <div class="gallery-item"><img src="https://placehold.co/400x400/ecd9cc/a76d4a?text=Textured+Bob" alt="Textured Bob"></div>
+                <div class="gallery-item"><img src="https://placehold.co/400x400/f5e8df/a76d4a?text=Fade" alt="Modern Fade"></div>
+                <div class="gallery-item"><img src="https://placehold.co/400x400/e8d3c6/a76d4a?text=Updo" alt="Elegant Updo"></div>
             </div>
         </div>
     </section>
 
-    <!-- Stylists -->
     <section id="stylists">
         <div class="container">
             <h2 class="section-title">Master Stylists</h2>
-            <div class="section-sub">Creativity meets experience</div>
+            <div class="section-sub">Artists who understand your hair & vibe</div>
             <div class="team-grid">
-                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Emma Laurent</h4><p>Creative Director</p><small>color specialist</small></div>
-                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>James Carter</h4><p>Master Barber</p><small>fades & precision</small></div>
-                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Sophia Chen</h4><p>Extension Expert</p><small>bridal volume</small></div>
-                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Liam O’Neil</h4><p>Texture Artist</p><small>curly specialist</small></div>
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Anjali Nair</h4><p>Creative Director</p><small>Color specialist</small></div>
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Rahul Shetty</h4><p>Master Barber</p><small>Precision fades</small></div>
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Meera Iyer</h4><p>Extension Expert</p><small>Bridal volume</small></div>
+                <div class="team-card"><div class="team-img"><i class="fas fa-user-circle fa-4x"></i></div><h4>Kiran Kumar</h4><p>Texture Artist</p><small>Curly specialist</small></div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials (light) - 2 columns on mobile fine, short quotes -->
     <section id="testimonials">
         <div class="container">
             <h2 class="section-title">Client Love</h2>
-            <div class="section-sub">Real reviews</div>
+            <div class="section-sub">What Bangalore says about us</div>
             <div class="testimonial-grid">
-                <div class="testi-card"><div class="stars">★★★★★</div><p>"Obsessed with my balayage! Modern & relaxing."</p><div class="customer">— Jessica M.</div></div>
-                <div class="testi-card"><div class="stars">★★★★★</div><p>"Best barber, flawless fade. Coming back."</p><div class="customer">— Marcus R.</div></div>
-                <div class="testi-card"><div class="stars">★★★★☆</div><p>"Gorgeous blowout and scalp massage. New favorite."</p><div class="customer">— Priya K.</div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><p>"Best balayage in Indiranagar! Loved the vibe."</p><div class="customer">— Priya S.</div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><p>"Rahul gave me a crisp fade. Best barber in Koramangala."</p><div class="customer">— Vikram M.</div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><p>"Keratin treatment changed my monsoon hair struggle."</p><div class="customer">— Sneha R.</div></div>
             </div>
         </div>
     </section>
@@ -696,16 +756,15 @@
 <footer id="contact">
     <div class="container">
         <div class="footer-grid">
-            <div class="footer-col"><h4>LUXE LOCKS</h4><p>Modern atelier, sustainable luxury & bespoke styling.</p><div class="social-icons" style="margin-top: 0.8rem;"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a></div></div>
-            <div class="footer-col"><h4>Visit us</h4><p>📍 451 Style Avenue, NYC<br>📞 +1 (555) 328-9472<br>✉️ hello@luxelocks.com</p></div>
-            <div class="footer-col"><h4>Opening Hours</h4><p>Mon-Fri: 9am–8pm<br>Sat: 9am–7pm<br>Sun: 10am–5pm</p></div>
+            <div class="footer-col"><h4>LUXE LOCKS</h4><p>Luxury meets local warmth. Sustainable, trendy & inclusive.</p><div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a></div></div>
+            <div class="footer-col"><h4>Visit us</h4><p>📍 100 Feet Road, Indiranagar<br>📍 5th Block, Koramangala<br>📞 +91 80 4123 7890<br>✉️ hello@luxelocks.in</p></div>
+            <div class="footer-col"><h4>Opening Hours</h4><p>Mon-Fri: 10am–9pm<br>Sat: 10am–8pm<br>Sun: 11am–6pm</p></div>
         </div>
-        <div class="copyright">© 2026 LUXE LOCKS — Where style meets confidence.</div>
+        <div class="copyright">© 2026 LUXE LOCKS — Bengaluru's premier hair destination. #LuxeLocksIndia</div>
     </div>
 </footer>
 
 <script>
-    // Mobile menu toggle
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     if(menuToggle) {
@@ -719,7 +778,6 @@
         });
     });
 
-    // Set min date for booking
     const dateInput = document.getElementById('date');
     if(dateInput) {
         let today = new Date();
@@ -729,61 +787,45 @@
         dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
     }
 
-    // Appointment form submission
     const form = document.getElementById('appointmentForm');
     const feedbackDiv = document.getElementById('formFeedback');
     
     if(form) {
-	form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const service = document.getElementById('serviceSelect').value;
-    const date = document.getElementById('date').value;
-	const notes = document.getElementById('notes').value.trim();
-
-    const time = document.getElementById('time').value;
-if(!name || !email || !service || !date || !time) {
-        feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ Fill all required fields.</div>';
-        return;
-    }
-
-    if(!email.includes('@') || !email.includes('.')) {
-        feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">📧 Valid email needed.</div>';
-        return;
-    }
-
-    try {
-        //const res = await fetch("http://localhost:3000/api/book", {
-		const res = await fetch("/api/book", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, email, service, date, time, notes })
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const service = document.getElementById('serviceSelect').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            if(!name || !email || !service || !date || !time) {
+                feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ Please fill all required fields.</div>';
+                return;
+            }
+            if(!email.includes('@') || !email.includes('.')) {
+                feedbackDiv.innerHTML = '<div class="success-message" style="background:#ffe0b5; color:#a55117;">📧 Enter a valid email.</div>';
+                return;
+            }
+            try {
+                const res = await fetch("/api/book", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, service, date, time, notes: document.getElementById('notes').value })
+                });
+                const data = await res.json();
+                if(res.ok) {
+                    feedbackDiv.innerHTML = `<div class="success-message">✨ Thank you, ${name}! Your ${service} on ${date} is confirmed.</div>`;
+                    form.reset();
+                } else {
+                    feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ ${data.message}</div>`;
+                }
+            } catch (error) {
+                feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">❌ Server error. Please call us.</div>`;
+            }
+            setTimeout(() => { feedbackDiv.innerHTML = ''; }, 5000);
         });
-
-        const data = await res.json();
-
-        if(res.ok) {
-            feedbackDiv.innerHTML = `<div class="success-message">✨ Thank you, ${name}! Your ${service} on ${date} is requested.</div>`;
-            form.reset();
-        } else {
-            feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">⚠️ ${data.message}</div>`;
-        }
-
-    } catch (error) {
-        feedbackDiv.innerHTML = `<div class="success-message" style="background:#ffe0b5; color:#a55117;">❌ Server error</div>`;
     }
 
-    setTimeout(() => {
-        feedbackDiv.innerHTML = '';
-    }, 5000);
-});
-	}
-
-    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
@@ -796,22 +838,17 @@ if(!name || !email || !service || !date || !time) {
         });
     });
     
-    // Active nav highlight on scroll
     const sections = document.querySelectorAll("section");
     const navItems = document.querySelectorAll(".nav-links a");
     window.addEventListener("scroll", () => {
         let current = "";
         sections.forEach(section => {
             const sectionTop = section.offsetTop - 90;
-            if(pageYOffset >= sectionTop) {
-                current = section.getAttribute("id");
-            }
+            if(pageYOffset >= sectionTop) current = section.getAttribute("id");
         });
         navItems.forEach(link => {
             link.classList.remove("active");
-            if(link.getAttribute("href") === `#${current}`) {
-                link.classList.add("active");
-            }
+            if(link.getAttribute("href") === `#${current}`) link.classList.add("active");
         });
     });
 </script>
