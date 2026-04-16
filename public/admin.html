@@ -520,6 +520,7 @@ window.deleteBooking = async function(bookingId) {
     
     try {
         // Use relative or configured backend URL (same as ajax source)
+//		const response = await fetch(`http://localhost:3000/api/book/${bookingId}/done`, { 
         const response = await fetch(`https://saloon-with-backend.onrender.com/api/book/${bookingId}`, { 
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
@@ -570,6 +571,7 @@ $(document).ready(function () {
     // Better: disable responsive entirely and rely on overflow-x:auto from wrapper.
     dataTable = $('#bookingTable').DataTable({
         ajax: {
+//			  url: 'http://localhost:3000/api/bookings',
             url: 'https://saloon-with-backend.onrender.com/api/bookings',
             dataSrc: function(response) {
                 if (!response || !Array.isArray(response)) {
