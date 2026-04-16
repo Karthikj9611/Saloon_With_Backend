@@ -715,10 +715,10 @@
                 <h3 style="margin-bottom: 0.8rem; font-size: 1.3rem;">Request appointment</h3>
                 <form id="appointmentForm">
                     <div class="form-group"><input type="text" id="name" placeholder="Full name *" required></div>
-                    <div class="form-group"><input type="email" id="email" placeholder="Email *" required></div>
-                    <div class="form-group"><input type="tel" id="phone" placeholder="Phone"></div>
+                    <div class="form-group"><input type="tel" id="phone" placeholder="Phone  *"></div>
+					<div class="form-group"><input type="email" id="email" placeholder="Email"></div>
                     <div class="form-group"><select id="serviceSelect">
-                        <option value="">Select service</option>
+                        <option value="">Select service   *</option>
                         <option>Precision Cut - ₹799</option>
                         <option>Balayage & Color - ₹3500+</option>
                         <option>Blowout & Styling - ₹999</option>
@@ -726,8 +726,30 @@
                         <option>Gentlemen's Grooming - ₹599</option>
                         <option>Kids Cut - ₹449</option>
                     </select></div>
-                    <div class="form-group"><input type="date" id="date" required></div>
-                    <div class="form-group"><input type="time" id="time" required></div>
+                    <div class="form-group"><input type="date" id="date" placeholder="Select date" required></div>
+                    <div class="form-group">
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <select id="hourSelect" required style="flex: 2; min-width: 75px; padding: 12px 10px; border-radius: 50px; border: 1px solid #e2d4cb; background: #fefcf9; font-family: 'Inter', sans-serif; font-size: 14px;">
+            <option value="">Hour</option>
+            <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+            <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+            <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+            <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+        </select>
+        <span style="font-size: 20px; font-weight: 600; color: #a76d4a;">:</span>
+        <select id="minuteSelect" required style="flex: 2; min-width: 75px; padding: 12px 10px; border-radius: 50px; border: 1px solid #e2d4cb; background: #fefcf9; font-family: 'Inter', sans-serif; font-size: 14px;">
+            <option value="">Min</option>
+            <option value="00">00</option><option value="30">30</option>
+        </select>
+        <select id="ampmSelect" required style="flex: 1; min-width: 75px; padding: 12px 10px; border-radius: 50px; border: 1px solid #e2d4cb; background: #fefcf9; font-family: 'Inter', sans-serif; font-size: 14px;">
+            <option value="">AM/PM</option>
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+        </select>
+    </div>
+    <!-- Hidden input to store the combined time value -->
+    <input type="hidden" id="time" required>
+</div>
                     <div class="form-group"><textarea id="notes" rows="2" placeholder="Special requests / preferred stylist"></textarea></div>
                     <button type="submit" class="btn" id="submitBooking">Confirm Booking</button>
                     <div id="formFeedback" style="margin-top: 10px;"></div>
@@ -864,6 +886,12 @@
 </footer>
 
 <script>
+	// Combine hour, minute, ampm into the hidden time input
+const hour = document.getElementById('hourSelect').value;
+const minute = document.getElementById('minuteSelect').value;
+const ampm = document.getElementById('ampmSelect').value;
+document.getElementById('time').value = `${hour}:${minute} ${ampm}`;
+
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     if(menuToggle) {
@@ -909,19 +937,29 @@ if(form) {
         const phone = document.getElementById('phone').value.trim();  // ← ADD THIS LINE
         const service = document.getElementById('serviceSelect').value;
         const date = document.getElementById('date').value;
-        const time = document.getElementById('time').value;
+		
+		 // NEW: Combine dropdown values into hidden time input
+    const hour = document.getElementById('hourSelect').value;
+    const minute = document.getElementById('minuteSelect').value;
+    const ampm = document.getElementById('ampmSelect').value;
+    document.getElementById('time').value = `${hour}:${minute} ${ampm}`;
+    
+    // Now get time from hidden input (your existing code)
+    const time = document.getElementById('time').value;  // This stays as is!
         const notes = document.getElementById('notes').value;
         
-        if(!name || !email || !service || !date || !time) {
-            feedbackDiv.innerHTML = '<div class="error-message">⚠️ Please fill all required fields.</div>';
-            setTimeout(() => feedbackDiv.innerHTML = '', 4000);
-            return;
-        }
-        if(!email.includes('@') || !email.includes('.')) {
+       // Update validation to check dropdowns
+    if(!name || !phone || !service || !date || !hour || !minute || !ampm) {
+        feedbackDiv.innerHTML = '<div class="error-message">⚠️ Please fill all required fields including complete time.</div>';
+        setTimeout(() => feedbackDiv.innerHTML = '', 4000);
+        return;
+    }
+/*        if(!email.includes('@') || !email.includes('.')) {
             feedbackDiv.innerHTML = '<div class="error-message">📧 Enter a valid email.</div>';
             setTimeout(() => feedbackDiv.innerHTML = '', 4000);
             return;
         }
+*/
         
         // Check if slot already exists in DB
         try {

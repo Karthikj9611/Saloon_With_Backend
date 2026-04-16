@@ -55,7 +55,7 @@ app.post("/api/book", async (req, res) => {
     try {
         const { name, email, phone, service, date, time, notes } = req.body;
 
-        if (!name || !email || !service || !date || !time) {
+        if (!name || !service || !date || !time) {
             return res.status(400).json({ message: "All fields required" });
         }
 
